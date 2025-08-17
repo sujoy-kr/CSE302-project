@@ -1,0 +1,19 @@
+{
+  "name": "canteen-management-system",
+  "version": "1.0.0",
+  "description": "A nodejs backend system for CSE302 project 'canteen management system'",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "author": "sujoykr",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

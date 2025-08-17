@@ -1,0 +1,21 @@
+Core Entities
+
+Students: student_id, first_name, last_name, dept_name (FK)
+
+Employee: employee_id, first_name, last_name, role, salary, phone, hire_date
+
+Department: pk(dept_name), building, budget
+
+Suppliers: supplier_id, supplier_name, phone, email
+
+Food_Items: food_item_id, food_name, price, category
+
+Relations
+
+Orders: pk(order_id) , student_id (FK), food_item_id (FK), quantity, order_date, status
+
+Food_Item_Supply: pk(supplier_id (FK), food_item_id (FK), quantity, supply_date)
+
+order_delivery: employee_id, order_id
+
+Employee_Feedback: student_id (FK), employee_id (FK) rating, comment, date
