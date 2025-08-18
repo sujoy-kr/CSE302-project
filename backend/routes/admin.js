@@ -1,33 +1,25 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-// POST /admin/buy-food
-router.post("/buy-food", async (req, res) => {
-  const { food_item_id, supplier_id, quantity } = req.body;
-  const db = req.app.locals.db;
+// POST /admin/add-food
+router.post('/add-food', async (req, res) => {
+    const { food_name, price, category } = req.body
+    const db = req.app.locals.db
 
-  try {
-    // Insert into Food_Item_Supply
-    const [supplyResult] = await db.query(
-      `INSERT INTO Food_Item_Supply (supplier_id, food_item_id, quantity, supply_date)
-             VALUES (?,?,?,?)`,
-      [supplier_id, food_item_id, quantity, new Date()]
-    );
+    try {
+        // Insert into Food_Items
+        const [result] = await db.query(
+            `INSERT INTO Food_Items (food_name, price, category) VALUES (?, ?, ?)`,
+            [food_name, price, category]
+        )
 
-    // Log transaction
-    await db.query(
-      `INSERT INTO Transactions (type, quantity, transaction_date, food_item_id)
-             VALUES (?,?,?,?)`,
-      ["purchase", quantity, new Date(), food_item_id]
-    );
+        const foodItemId = result.insertId
 
-    res.json({
-      message: "Food purchased successfully",
-      supply_id: supplyResult.insertId,
-    });
-  } catch (err) {
-    res.status(500).json({ error: err });
-  }
-});
+        res.json({ message: 'Food added successfully', foodItemId })
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ error: 'Database error', details: err.message })
+    }
+})
 
-module.exports = router;
+module.exports = router
