@@ -4,6 +4,7 @@ import {
     getStudents,
     getEmployees,
     getSuppliedFoods,
+    getTransactions,
     getTopFood,
     getPopularDepartment,
     getCategoryRevenue,
@@ -20,6 +21,7 @@ export default function AdminPanel() {
     const [students, setStudents] = useState([])
     const [employees, setEmployees] = useState([])
     const [suppliedFoods, setSuppliedFoods] = useState([])
+    const [transactions, setTransactions] = useState([])
     const [reportData, setReportData] = useState([])
 
     useEffect(() => {
@@ -27,14 +29,16 @@ export default function AdminPanel() {
     }, [])
 
     const fetchAllData = async () => {
-        const [s, e, f] = await Promise.all([
+        const [s, e, f, t] = await Promise.all([
             getStudents(),
             getEmployees(),
             getSuppliedFoods(),
+            getTransactions(),
         ])
         setStudents(s.data)
         setEmployees(e.data)
         setSuppliedFoods(f.data)
+        setTransactions(t.data)
     }
 
     const handleCreateFood = async () => {
@@ -72,6 +76,51 @@ export default function AdminPanel() {
             alert('Failed to fetch report')
         }
     }
+
+    const renderTable = (data, columns) => (
+        <table className='w-full text-sm border-collapse border border-gray-300'>
+            <thead className='bg-gray-100'>
+                <tr>
+                    {columns.map((col, i) => (
+                        <th key={i} className='border p-2 text-left'>
+                            {col}
+                        </th>
+                    ))}
+                </tr>
+            </thead>
+            <tbody>
+                {data.length > 0 ? (
+                    data.map((row, idx) => (
+                        <tr key={idx} className='hover:bg-gray-50'>
+                            {columns.map((col, i) => (
+                                <td key={i} className='border p-2'>
+                                    {row[col] instanceof Date
+                                        ? row[col].toLocaleDateString(
+                                              undefined,
+                                              {
+                                                  year: 'numeric',
+                                                  month: 'short',
+                                                  day: 'numeric',
+                                              }
+                                          )
+                                        : row[col]}
+                                </td>
+                            ))}
+                        </tr>
+                    ))
+                ) : (
+                    <tr>
+                        <td
+                            colSpan={columns.length}
+                            className='text-center p-4'
+                        >
+                            No data available.
+                        </td>
+                    </tr>
+                )}
+            </tbody>
+        </table>
+    )
 
     return (
         <div className='p-6 max-w-6xl mx-auto space-y-6'>
@@ -113,76 +162,47 @@ export default function AdminPanel() {
                 </button>
             </div>
 
-            {/* Tables */}
-            <div className='grid md:grid-cols-3 gap-4'>
+            {/* Data Tables */}
+            <div className='grid md:grid-cols-2 gap-4'>
                 <div className='p-4 border rounded shadow overflow-auto'>
                     <h3 className='font-bold mb-2'>Students</h3>
-                    <table className='w-full text-sm'>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Dept</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {students.map((s) => (
-                                <tr key={s.student_id}>
-                                    <td>{s.student_id}</td>
-                                    <td>
-                                        {s.first_name} {s.last_name}
-                                    </td>
-                                    <td>{s.dept_name}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    {renderTable(students, [
+                        'student_id',
+                        'first_name',
+                        'last_name',
+                        'dept_name',
+                    ])}
                 </div>
 
                 <div className='p-4 border rounded shadow overflow-auto'>
                     <h3 className='font-bold mb-2'>Employees</h3>
-                    <table className='w-full text-sm'>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Role</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {employees.map((e) => (
-                                <tr key={e.employee_id}>
-                                    <td>{e.employee_id}</td>
-                                    <td>
-                                        {e.first_name} {e.last_name}
-                                    </td>
-                                    <td>{e.role}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    {renderTable(employees, [
+                        'employee_id',
+                        'first_name',
+                        'last_name',
+                        'role',
+                    ])}
                 </div>
 
                 <div className='p-4 border rounded shadow overflow-auto'>
                     <h3 className='font-bold mb-2'>Supplied Foods</h3>
-                    <table className='w-full text-sm'>
-                        <thead>
-                            <tr>
-                                <th>Food</th>
-                                <th>Supplier</th>
-                                <th>Category</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {suppliedFoods.map((f, i) => (
-                                <tr key={i}>
-                                    <td>{f.food_name}</td>
-                                    <td>{f.supplier_name}</td>
-                                    <td>{f.category}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    {renderTable(suppliedFoods, [
+                        'supply_id',
+                        'food_item_id',
+                        'quantity',
+                        'supply_date',
+                    ])}
+                </div>
+
+                <div className='p-4 border rounded shadow overflow-auto'>
+                    <h3 className='font-bold mb-2'>Transactions</h3>
+                    {renderTable(transactions, [
+                        'transaction_id',
+                        'type',
+                        'quantity',
+                        'transaction_date',
+                        'food_item_id',
+                    ])}
                 </div>
             </div>
 
@@ -223,25 +243,34 @@ export default function AdminPanel() {
                 </div>
 
                 {reportData.length > 0 && (
-                    <table className='w-full text-sm border-collapse border'>
-                        <thead>
+                    <table className='w-full text-sm border-collapse border border-gray-300'>
+                        <thead className='bg-gray-100'>
                             <tr>
-                                {Object.keys(reportData[0]).map((key, idx) => (
-                                    <th key={idx} className='border px-2 py-1'>
+                                {Object.keys(reportData[0]).map((key, i) => (
+                                    <th
+                                        key={i}
+                                        className='border p-2 text-left'
+                                    >
                                         {key}
                                     </th>
                                 ))}
                             </tr>
                         </thead>
                         <tbody>
-                            {reportData.map((row, i) => (
-                                <tr key={i}>
+                            {reportData.map((row, idx) => (
+                                <tr key={idx} className='hover:bg-gray-50'>
                                     {Object.values(row).map((val, j) => (
-                                        <td
-                                            key={j}
-                                            className='border px-2 py-1'
-                                        >
-                                            {val}
+                                        <td key={j} className='border p-2'>
+                                            {val instanceof Date
+                                                ? val.toLocaleDateString(
+                                                      undefined,
+                                                      {
+                                                          year: 'numeric',
+                                                          month: 'short',
+                                                          day: 'numeric',
+                                                      }
+                                                  )
+                                                : val}
                                         </td>
                                     ))}
                                 </tr>

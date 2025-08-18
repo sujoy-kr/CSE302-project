@@ -36,8 +36,10 @@ export const supplyFood = (data) =>
 
 // -------------------- Admin / Reports --------------------
 export const getStudents = () => axios.get(`${BASE_URL}/students`)
+export const getTransactions = () => axios.get(`${BASE_URL}/transactions`)
 export const getEmployees = () => axios.get(`${BASE_URL}/employees`)
-export const getSuppliedFoods = () => axios.get(`${BASE_URL}/suppliers/foods`)
+export const getSuppliedFoods = () =>
+    axios.get(`${BASE_URL}/suppliers/supplies`)
 
 export const getTopFood = () => axios.get(`${BASE_URL}/reports/top-food`)
 export const getPopularDepartment = () =>

@@ -30,6 +30,18 @@ router.post('/', async (req, res) => {
     }
 })
 
+// GET all food item supplies
+router.get('/supplies', async (req, res) => {
+    const db = req.app.locals.db
+    try {
+        const [rows] = await db.query('SELECT * FROM Food_Item_Supply')
+        res.json(rows)
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ error: 'Server error' })
+    }
+})
+
 // POST /suppliers/supply-food
 router.post('/supply-food', async (req, res) => {
     const { food_item_id, supplier_id, quantity } = req.body
