@@ -1,21 +1,101 @@
-Core Entities
+CREATE TABLE Department
+(
+  dept_name VARCHAR(5) NOT NULL,
+  building VARCHAR(50) NOT NULL,
+  budget DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (dept_name)
+);
 
-Students: student_id, first_name, last_name, dept_name (FK)
+CREATE TABLE Students
+(
+  student_id INT NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  password_hash VARCHAR(200) NOT NULL,
+  dept_name VARCHAR(5) NOT NULL,
+  PRIMARY KEY (student_id),
+  FOREIGN KEY (dept_name) REFERENCES Department(dept_name)
+);
 
-Employee: employee_id, first_name, last_name, role, salary, phone, hire_date
+CREATE TABLE Employee
+(
+  employee_id INT NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  password_hash VARCHAR(200) NOT NULL,
+  role VARCHAR(30) NOT NULL,
+  salary DECIMAL(10,2) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  hire_date DATE NOT NULL,
+  PRIMARY KEY (employee_id)
+);
 
-Department: pk(dept_name), building, budget
+CREATE TABLE Suppliers
+(
+  supplier_id INT NOT NULL AUTO_INCREMENT,
+  supplier_name VARCHAR(100) NOT NULL,
+  password_hash VARCHAR(200) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  PRIMARY KEY (supplier_id)
+);
 
-Suppliers: supplier_id, supplier_name, phone, email
+CREATE TABLE Food_Items
+(
+  food_item_id INT NOT NULL AUTO_INCREMENT,
+  food_name VARCHAR(100) NOT NULL,
+  price DECIMAL(10,2) NOT NULL,
+  category VARCHAR(50) NOT NULL,
+  PRIMARY KEY (food_item_id)
+);
 
-Food_Items: food_item_id, food_name, price, category
+CREATE TABLE Orders
+(
+  order_id INT NOT NULL AUTO_INCREMENT,
+  quantity INT NOT NULL,
+  order_date DATE NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  employee_id INT,
+  food_item_id INT NOT NULL,
+  student_id INT NOT NULL,
+  PRIMARY KEY (order_id),
+  FOREIGN KEY (employee_id) REFERENCES Employee(employee_id),
+  FOREIGN KEY (food_item_id) REFERENCES Food_Items(food_item_id),
+  FOREIGN KEY (student_id) REFERENCES Students(student_id)
+);
 
-Relations
+CREATE TABLE Transactions
+(
+  transaction_id INT NOT NULL AUTO_INCREMENT,
+  type VARCHAR(20) NOT NULL,
+  quantity INT NOT NULL,
+  transaction_date DATE NOT NULL,
+  food_item_id INT NOT NULL,
+  PRIMARY KEY (transaction_id),
+  FOREIGN KEY (food_item_id) REFERENCES Food_Items(food_item_id)
+);
 
-Orders: pk(order_id) , student_id (FK), food_item_id (FK), quantity, order_date, status
+CREATE TABLE Food_Item_Supply
+(
+  quantity INT NOT NULL,
+  supply_date DATE NOT NULL,
+  supply_id INT NOT NULL AUTO_INCREMENT,
+  supplier_id INT NOT NULL,
+  food_item_id INT NOT NULL,
+  PRIMARY KEY (supply_id),
+  FOREIGN KEY (supplier_id) REFERENCES Suppliers(supplier_id),
+  FOREIGN KEY (food_item_id) REFERENCES Food_Items(food_item_id)
+);
 
-Food_Item_Supply: pk(supplier_id (FK), food_item_id (FK), quantity, supply_date)
-
-order_delivery: employee_id, order_id
-
-Employee_Feedback: student_id (FK), employee_id (FK) rating, comment, date
+CREATE TABLE Employee_Feedback
+(
+  rating INT NOT NULL,
+  comment VARCHAR(255) NOT NULL,
+  date DATE NOT NULL,
+  feedback_id INT NOT NULL AUTO_INCREMENT,
+  employee_id INT NOT NULL,
+  student_id INT NOT NULL,
+  PRIMARY KEY (feedback_id),
+  FOREIGN KEY (employee_id) REFERENCES Employee(employee_id),
+  FOREIGN KEY (student_id) REFERENCES Students(student_id)
+);
