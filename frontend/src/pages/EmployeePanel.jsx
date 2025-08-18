@@ -39,9 +39,11 @@ export default function EmployeePanel() {
     const handleLogin = async () => {
         try {
             const res = await loginUser({ userType: 'employee', ...loginForm })
+            console.log(res)
+
             if (res.data.exists) {
-                localStorage.setItem('employeeId', loginForm.ID)
-                setEmployeeId(loginForm.ID)
+                localStorage.setItem('employeeId', res.data.user.employee_id)
+                setEmployeeId(res.data.user.employee_id)
                 setLoggedIn(true)
                 fetchOrders()
             } else setError('Invalid credentials')
