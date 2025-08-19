@@ -1,4 +1,3 @@
-// components/Navbar.jsx
 export default function Navbar({ currentPanel, setPanel }) {
     const panels = ['student', 'employee', 'supplier', 'authority']
 

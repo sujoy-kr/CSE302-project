@@ -7,7 +7,6 @@ router.post('/add-food', async (req, res) => {
     const db = req.app.locals.db
 
     try {
-        // Insert into Food_Items
         const [result] = await db.query(
             `INSERT INTO Food_Items (food_name, price, category) VALUES (?, ?, ?)`,
             [food_name, price, category]

@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     res.json(rows)
 })
 
-// POST create order (employee_id not needed yet)
+// POST create order
 router.post('/', async (req, res) => {
     const db = req.app.locals.db
     const { student_id, food_item_id, quantity } = req.body
@@ -26,14 +26,12 @@ router.post('/', async (req, res) => {
 })
 
 // PUT /orders/:order_id/deliver
-// Assign employee, mark delivered, create sale transaction
 router.put('/:order_id/deliver', async (req, res) => {
     const db = req.app.locals.db
     const { employee_id } = req.body
     const { order_id } = req.params
 
     try {
-        // Get order details
         const [orders] = await db.query(
             'SELECT * FROM Orders WHERE order_id = ?',
             [order_id]
@@ -44,7 +42,7 @@ router.put('/:order_id/deliver', async (req, res) => {
 
         const order = orders[0]
 
-        // Update order: assign employee and mark as completed
+        // Update order. Assign employee and mark as completed.
         await db.query(
             `UPDATE Orders
              SET employee_id = ?, status = 'completed'
@@ -52,7 +50,7 @@ router.put('/:order_id/deliver', async (req, res) => {
             [employee_id, order_id]
         )
 
-        // Log transaction of type 'sale'
+        // Log transaction
         await db.query(
             `INSERT INTO Transactions (type, quantity, transaction_date, food_item_id)
              VALUES (?,?,?,?)`,

@@ -1,4 +1,3 @@
-// pages/EmployeePanel.jsx
 import { useEffect, useState } from 'react'
 import {
     deliverOrder,
@@ -20,8 +19,8 @@ export default function EmployeePanel() {
         phone: '',
         password: '',
     })
-    const [orders, setOrders] = useState([]) // pending orders
-    const [allOrders, setAllOrders] = useState([]) // all orders
+    const [orders, setOrders] = useState([])
+    const [allOrders, setAllOrders] = useState([])
     const [error, setError] = useState('')
 
     useEffect(() => {

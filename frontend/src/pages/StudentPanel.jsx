@@ -1,4 +1,3 @@
-// pages/StudentPanel.jsx
 import { useEffect, useState } from 'react'
 import {
     createOrder,
@@ -79,11 +78,10 @@ export default function StudentPanel() {
         setStudentId(null)
     }
 
-    // inside your component
-    const [quantities, setQuantities] = useState({}) // key: food_item_id, value: quantity
+    const [quantities, setQuantities] = useState({})
 
     const handleOrder = async (foodId) => {
-        const quantity = quantities[foodId] || 1 // default 1 if not set
+        const quantity = quantities[foodId] || 1
         try {
             await createOrder({
                 student_id: studentId,
