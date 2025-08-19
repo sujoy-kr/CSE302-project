@@ -4,7 +4,6 @@ const BASE_URL = 'http://localhost:3000'
 
 // auth
 export const loginUser = (data) => axios.post(`${BASE_URL}/auth/login`, data)
-
 export const registerUser = async ({ userType, ...rest }) => {
     let url = ''
     if (userType === 'student') url = `${BASE_URL}/students`
@@ -53,6 +52,16 @@ export const getTopEmployeeRating = () =>
     axios.get(`${BASE_URL}/reports/top-employee-rating`)
 export const getTopEmployeeOrders = () =>
     axios.get(`${BASE_URL}/reports/top-employee-orders`)
+export const getTopStudents = () =>
+    axios.get(`${BASE_URL}/reports/top-students`) // students who order most
+export const getTopSuppliers = () =>
+    axios.get(`${BASE_URL}/reports/top-suppliers`) // suppliers who supply most
+export const getDailyRevenue = () =>
+    axios.get(`${BASE_URL}/reports/daily-revenue`) // revenue per day
+export const getEmployeeAverageRating = () =>
+    axios.get(`${BASE_URL}/reports/employee-average-rating`) // average feedback rating per employee
+export const getTopFoodPerDepartment = () =>
+    axios.get(`${BASE_URL}/reports/top-food-per-department`) // top food ordered per department
 
 // food management
 export const createFood = (data) => axios.post(`${BASE_URL}/food-items`, data)

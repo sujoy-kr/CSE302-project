@@ -9,7 +9,6 @@ router.get('/', async (req, res) => {
         const [rows] = await db.query(
             'SELECT t.transaction_id, t.type, t.quantity, t.transaction_date, f.food_name FROM Transactions t inner join Food_Items f on t.food_item_id = f.food_item_id ORDER BY t.transaction_date DESC'
         )
-        console.log(rows)
 
         res.json(rows)
     } catch (err) {

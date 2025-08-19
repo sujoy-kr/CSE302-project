@@ -5,12 +5,17 @@ import {
     getEmployees,
     getSuppliedFoods,
     getTransactions,
-    getTopFood,
     getFeedbacks,
+    getTopFood,
     getPopularDepartment,
     getCategoryRevenue,
     getTopEmployeeRating,
     getTopEmployeeOrders,
+    getTopStudents,
+    getTopSuppliers,
+    getDailyRevenue,
+    getEmployeeAverageRating,
+    getTopFoodPerDepartment,
 } from '../api/api'
 
 export default function AdminPanel() {
@@ -73,6 +78,21 @@ export default function AdminPanel() {
                     break
                 case 'topEmployeeOrders':
                     res = await getTopEmployeeOrders()
+                    break
+                case 'topStudents':
+                    res = await getTopStudents()
+                    break
+                case 'topSuppliers':
+                    res = await getTopSuppliers()
+                    break
+                case 'dailyRevenue':
+                    res = await getDailyRevenue()
+                    break
+                case 'employeeAvgRating':
+                    res = await getEmployeeAverageRating()
+                    break
+                case 'topFoodPerDept':
+                    res = await getTopFoodPerDepartment()
                     break
             }
             setReportData(res.data)
@@ -225,7 +245,7 @@ export default function AdminPanel() {
                     </div>
                 </div>
 
-                <div className='p-4 border rounded shadow bg-pink-50 overflow-auto col-span-2'>
+                <div className='p-4 border rounded shadow bg-pink-50 overflow-auto'>
                     <h3 className='font-bold mb-2 text-pink-700'>
                         Employee Feedbacks
                     </h3>
@@ -245,37 +265,39 @@ export default function AdminPanel() {
             {/* Reports */}
             <div className='p-4 border rounded shadow space-y-4 mt-4'>
                 <h3 className='text-xl font-bold'>Reports</h3>
-                <div className='flex space-x-2 flex-wrap mb-2'>
-                    <button
-                        onClick={() => handleReport('topFood')}
-                        className='bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-800'
-                    >
-                        Top Food
-                    </button>
-                    <button
-                        onClick={() => handleReport('popularDept')}
-                        className='bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-800'
-                    >
-                        Popular Department
-                    </button>
-                    <button
-                        onClick={() => handleReport('categoryRevenue')}
-                        className='bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-800'
-                    >
-                        Revenue by Category
-                    </button>
-                    <button
-                        onClick={() => handleReport('topEmployeeRating')}
-                        className='bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-800'
-                    >
-                        Top Employee Rating
-                    </button>
-                    <button
-                        onClick={() => handleReport('topEmployeeOrders')}
-                        className='bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-800'
-                    >
-                        Top Employee Orders
-                    </button>
+                <div className='flex flex-wrap space-x-2 mb-2'>
+                    {[
+                        { key: 'topFood', label: 'Top Food' },
+                        { key: 'popularDept', label: 'Popular Department' },
+                        {
+                            key: 'categoryRevenue',
+                            label: 'Revenue by Category',
+                        },
+                        {
+                            key: 'topEmployeeRating',
+                            label: 'Top Employee Rating',
+                        },
+                        {
+                            key: 'topEmployeeOrders',
+                            label: 'Top Employee Orders',
+                        },
+                        { key: 'topStudents', label: 'Top Students' },
+                        { key: 'topSuppliers', label: 'Top Suppliers' },
+                        { key: 'dailyRevenue', label: 'Daily Revenue' },
+                        {
+                            key: 'employeeAvgRating',
+                            label: 'Employee Avg Rating',
+                        },
+                        { key: 'topFoodPerDept', label: 'Top Food Per Dept' },
+                    ].map((r) => (
+                        <button
+                            key={r.key}
+                            onClick={() => handleReport(r.key)}
+                            className='bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-800 mb-1'
+                        >
+                            {r.label}
+                        </button>
+                    ))}
                 </div>
 
                 {reportData.length > 0 && (
