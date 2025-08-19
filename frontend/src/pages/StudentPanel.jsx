@@ -42,10 +42,7 @@ export default function StudentPanel() {
     const handleLogin = async () => {
         try {
             const res = await loginUser({ userType: 'student', ...loginForm })
-            console.log(res)
             if (res.data.exists) {
-                console.log(res)
-
                 localStorage.setItem('studentId', res.data.user.student_id)
                 setStudentId(res.data.user.student_id)
                 setLoggedIn(true)
@@ -91,8 +88,7 @@ export default function StudentPanel() {
             alert(
                 `Order placed! Quantity: ${quantity}. Employee will be assigned automatically.`
             )
-        } catch (e) {
-            console.log(e)
+        } catch {
             alert('Failed to place order')
         }
     }

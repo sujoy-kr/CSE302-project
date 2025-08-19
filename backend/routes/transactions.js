@@ -1,33 +1,38 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 // GET all transactions
-router.get("/", async (req, res) => {
-  const db = req.app.locals.db;
-  try {
-    const [rows] = await db.query(
-      "SELECT * FROM Transactions ORDER BY transaction_date DESC"
-    );
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ error: err });
-  }
-});
+router.get('/', async (req, res) => {
+    try {
+        const db = req.app.locals.db
+
+        const [rows] = await db.query(
+            'SELECT t.transaction_id, t.type, t.quantity, t.transaction_date, f.food_name FROM Transactions t inner join Food_Items f on t.food_item_id = f.food_item_id ORDER BY t.transaction_date DESC'
+        )
+        console.log(rows)
+
+        res.json(rows)
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ error: 'Server error' })
+    }
+})
 
 // POST add a transaction
-router.post("/", async (req, res) => {
-  const db = req.app.locals.db;
-  const { type, quantity, food_item_id } = req.body;
+router.post('/', async (req, res) => {
+    try {
+        const db = req.app.locals.db
+        const { type, quantity, food_item_id } = req.body
 
-  try {
-    const [result] = await db.query(
-      "INSERT INTO Transactions (type, quantity, transaction_date, food_item_id) VALUES (?,?,?,?)",
-      [type, quantity, new Date(), food_item_id]
-    );
-    res.json({ transaction_id: result.insertId });
-  } catch (err) {
-    res.status(500).json({ error: err });
-  }
-});
+        const [result] = await db.query(
+            'INSERT INTO Transactions (type, quantity, transaction_date, food_item_id) VALUES (?,?,?,?)',
+            [type, quantity, new Date(), food_item_id]
+        )
+        res.json({ transaction_id: result.insertId })
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ error: 'Server error' })
+    }
+})
 
-module.exports = router;
+module.exports = router

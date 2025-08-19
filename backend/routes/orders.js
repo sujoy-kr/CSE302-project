@@ -3,17 +3,37 @@ const router = express.Router()
 
 // GET all orders
 router.get('/', async (req, res) => {
-    const db = req.app.locals.db
-    const [rows] = await db.query('SELECT * FROM Orders')
-    res.json(rows)
+    try {
+        const db = req.app.locals.db
+
+        const [rows] = await db.query(
+            `SELECT 
+        o.order_id,
+        o.quantity,
+        o.order_date,
+        status,
+        e.first_name AS handled_by,
+        s.first_name AS ordered_by,
+        f.food_name AS food_item
+    FROM Orders o
+    INNER JOIN Employee e ON o.employee_id = e.employee_id
+    INNER JOIN Students s ON o.student_id = s.student_id
+    INNER JOIN Food_Items f ON o.food_item_id = f.food_item_id`
+        )
+
+        res.json(rows)
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ error: 'Server error' })
+    }
 })
 
 // POST create order
 router.post('/', async (req, res) => {
-    const db = req.app.locals.db
-    const { student_id, food_item_id, quantity } = req.body
-
     try {
+        const db = req.app.locals.db
+        const { student_id, food_item_id, quantity } = req.body
+
         const [result] = await db.query(
             `INSERT INTO Orders (student_id, food_item_id, quantity, order_date, status)
              VALUES (?,?,?,?,?)`,
@@ -21,17 +41,18 @@ router.post('/', async (req, res) => {
         )
         res.json({ order_id: result.insertId })
     } catch (err) {
-        res.status(500).json({ error: err })
+        console.error(err)
+        res.status(500).json({ error: 'Server error' })
     }
 })
 
 // PUT /orders/:order_id/deliver
 router.put('/:order_id/deliver', async (req, res) => {
-    const db = req.app.locals.db
-    const { employee_id } = req.body
-    const { order_id } = req.params
-
     try {
+        const db = req.app.locals.db
+        const { employee_id } = req.body
+        const { order_id } = req.params
+
         const [orders] = await db.query(
             'SELECT * FROM Orders WHERE order_id = ?',
             [order_id]
@@ -59,7 +80,8 @@ router.put('/:order_id/deliver', async (req, res) => {
 
         res.json({ message: 'Order delivered and transaction logged' })
     } catch (err) {
-        res.status(500).json({ error: err })
+        console.error(err)
+        res.status(500).json({ error: 'Server error' })
     }
 })
 

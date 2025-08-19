@@ -81,8 +81,7 @@ export default function EmployeePanel() {
             await deliverOrder(orderId, employeeId)
             alert('Order delivered & transaction created!')
             fetchOrders()
-        } catch (e) {
-            console.log(e)
+        } catch {
             alert('Failed to deliver order')
         }
     }
@@ -226,8 +225,8 @@ export default function EmployeePanel() {
                         {orders.map((o, i) => (
                             <div key={i} className='p-4 border rounded shadow'>
                                 <p>Order ID: {o.order_id}</p>
-                                <p>Food ID: {o.food_item_id}</p>
-                                <p>Student: {o.student_id}</p>
+                                <p>Food: {o.food_item}</p>
+                                <p>Student: {o.ordered_by}</p>
                                 <p>Quantity: {o.quantity}</p>
                                 <p>
                                     Date:{' '}
@@ -243,7 +242,7 @@ export default function EmployeePanel() {
                                 <p>Status: {o.status}</p>
                                 <button
                                     onClick={() => handleDeliver(o.order_id)}
-                                    className='mt-2 bg-gray-700 text-white px-3 py-1 rounded hover:bg-grray-800'
+                                    className='mt-2 bg-gray-700 text-white px-3 py-1 rounded hover:bg-gray-800'
                                 >
                                     Deliver
                                 </button>
@@ -259,7 +258,7 @@ export default function EmployeePanel() {
                                 <thead className='bg-gray-100'>
                                     <tr>
                                         <th className='p-2 border'>Order ID</th>
-                                        <th className='p-2 border'>Food ID</th>
+                                        <th className='p-2 border'>Food</th>
                                         <th className='p-2 border'>Student</th>
                                         <th className='p-2 border'>Quantity</th>
                                         <th className='p-2 border'>Date</th>
@@ -276,10 +275,10 @@ export default function EmployeePanel() {
                                                 {o.order_id}
                                             </td>
                                             <td className='p-2 border'>
-                                                {o.food_item_id}
+                                                {o.food_item}
                                             </td>
                                             <td className='p-2 border'>
-                                                {o.student_id}
+                                                {o.ordered_by}
                                             </td>
                                             <td className='p-2 border'>
                                                 {o.quantity}
@@ -300,8 +299,8 @@ export default function EmployeePanel() {
                                                 {o.status}
                                             </td>
                                             <td className='p-2 border'>
-                                                {o.employee_id
-                                                    ? o.employee_id
+                                                {o.handled_by
+                                                    ? o.handled_by
                                                     : '—'}
                                             </td>
                                         </tr>

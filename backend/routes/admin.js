@@ -3,10 +3,10 @@ const router = express.Router()
 
 // POST /admin/add-food
 router.post('/add-food', async (req, res) => {
-    const { food_name, price, category } = req.body
-    const db = req.app.locals.db
-
     try {
+        const { food_name, price, category } = req.body
+        const db = req.app.locals.db
+
         const [result] = await db.query(
             `INSERT INTO Food_Items (food_name, price, category) VALUES (?, ?, ?)`,
             [food_name, price, category]

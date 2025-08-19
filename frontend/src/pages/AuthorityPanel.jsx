@@ -202,7 +202,8 @@ export default function AdminPanel() {
                     <div className='bg-white rounded shadow'>
                         {renderTable(suppliedFoods, [
                             'supply_id',
-                            'food_item_id',
+                            'supplier_name',
+                            'food_name',
                             'quantity',
                             'supply_date',
                         ])}
@@ -219,7 +220,7 @@ export default function AdminPanel() {
                             'type',
                             'quantity',
                             'transaction_date',
-                            'food_item_id',
+                            'food_name',
                         ])}
                     </div>
                 </div>
@@ -234,8 +235,8 @@ export default function AdminPanel() {
                             'rating',
                             'comment',
                             'date',
-                            'employee_id',
-                            'student_id',
+                            'employee_name',
+                            'student_name',
                         ])}
                     </div>
                 </div>

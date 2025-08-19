@@ -54,8 +54,7 @@ export default function SupplierPanel() {
                 fetchFoods()
                 fetchSuppliers()
             } else setError('Invalid credentials')
-        } catch (e) {
-            console.log(e)
+        } catch {
             setError('Server error')
         }
     }
@@ -96,8 +95,7 @@ export default function SupplierPanel() {
             })
             alert('Food delivered successfully!')
             setQuantities({ ...quantities, [foodId]: '' })
-        } catch (e) {
-            console.log(e)
+        } catch {
             alert('Failed to deliver food')
         }
     }
