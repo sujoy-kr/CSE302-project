@@ -78,8 +78,6 @@ export default function StudentPanel() {
   const [quantities, setQuantities] = useState({});
 
   const handleOrder = async (foodId) => {
-    console.log(studentId);
-
     const quantity = quantities[foodId] || 1;
     try {
       await createOrder({

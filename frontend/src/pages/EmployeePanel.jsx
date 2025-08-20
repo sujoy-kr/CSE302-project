@@ -36,8 +36,6 @@ export default function EmployeePanel() {
     const pendingOrders = await getPendingOrders();
     const all = await getOrders();
 
-    console.log(pendingOrders, all);
-
     setOrders(pendingOrders);
     setAllOrders(all.data);
   };
