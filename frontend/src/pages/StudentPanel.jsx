@@ -107,7 +107,6 @@ export default function StudentPanel() {
     <div className="p-6 max-w-5xl mx-auto space-y-6">
       {!loggedIn && (
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Login */}
           <div className="p-6 border rounded shadow space-y-4">
             <h2 className="text-xl font-bold">Login</h2>
             {error && <p className="text-red-500">{error}</p>}
@@ -142,7 +141,6 @@ export default function StudentPanel() {
             </button>
           </div>
 
-          {/* Register */}
           <div className="p-6 border rounded shadow space-y-4">
             <h2 className="text-xl font-bold">Register</h2>
             <input

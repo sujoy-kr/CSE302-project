@@ -49,15 +49,15 @@ export const getPopularDepartment = () =>
 export const getCategoryRevenue = () =>
   axios.get(`${BASE_URL}/reports/category-revenue`);
 export const getTopStudents = () =>
-  axios.get(`${BASE_URL}/reports/top-students`); // students who order most
+  axios.get(`${BASE_URL}/reports/top-students`);
 export const getTopSuppliers = () =>
-  axios.get(`${BASE_URL}/reports/top-suppliers`); // suppliers who supply most
+  axios.get(`${BASE_URL}/reports/top-suppliers`);
 export const getDailyRevenue = () =>
-  axios.get(`${BASE_URL}/reports/daily-revenue`); // revenue per day
+  axios.get(`${BASE_URL}/reports/daily-revenue`);
 export const getEmployeeAverageRating = () =>
-  axios.get(`${BASE_URL}/reports/employee-average-rating`); // average feedback rating per employee
+  axios.get(`${BASE_URL}/reports/employee-average-rating`);
 export const getTopFoodPerDepartment = () =>
-  axios.get(`${BASE_URL}/reports/top-food-per-department`); // top food ordered per department
+  axios.get(`${BASE_URL}/reports/top-food-per-department`);
 
 // food management
 export const createFood = (data) => axios.post(`${BASE_URL}/food-items`, data);

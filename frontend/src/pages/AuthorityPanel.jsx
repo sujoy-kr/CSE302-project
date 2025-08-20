@@ -136,7 +136,6 @@ export default function AdminPanel() {
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       <h2 className="text-2xl font-bold">Admin Panel</h2>
 
-      {/* Create Food */}
       <div className="p-4 border rounded shadow space-y-4">
         <h3 className="text-xl font-bold">Create Food</h3>
         <input
@@ -170,7 +169,6 @@ export default function AdminPanel() {
         </button>
       </div>
 
-      {/* Data Tables */}
       <div className="flex flex-col gap-4">
         <div className="p-4 border rounded shadow bg-blue-50 overflow-auto">
           <h3 className="font-bold mb-2 text-blue-700">Students</h3>
@@ -240,7 +238,6 @@ export default function AdminPanel() {
         </div>
       </div>
 
-      {/* Reports */}
       <div className="p-4 border rounded shadow space-y-4 mt-4">
         <h3 className="text-xl font-bold">Reports</h3>
         <div className="flex flex-wrap space-x-2 mb-2">

@@ -91,7 +91,6 @@ export default function EmployeePanel() {
     <div className="p-6 max-w-6xl mx-auto space-y-8">
       {!loggedIn && (
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Login */}
           <div className="p-6 border rounded shadow space-y-4">
             <h2 className="text-xl font-bold">Login</h2>
             {error && <p className="text-red-500">{error}</p>}
@@ -126,7 +125,6 @@ export default function EmployeePanel() {
             </button>
           </div>
 
-          {/* Register */}
           <div className="p-6 border rounded shadow space-y-4">
             <h2 className="text-xl font-bold">Register</h2>
             <input
@@ -219,7 +217,6 @@ export default function EmployeePanel() {
             </button>
           </div>
 
-          {/* Pending Orders */}
           <div className="grid md:grid-cols-3 gap-4">
             {orders.map((o, i) => (
               <div key={i} className="p-4 border rounded shadow">
@@ -246,7 +243,6 @@ export default function EmployeePanel() {
             ))}
           </div>
 
-          {/* All Orders Section */}
           <div className="mt-10">
             <h2 className="text-2xl font-bold mb-4">All Orders</h2>
             <div className="overflow-x-auto">

@@ -104,7 +104,6 @@ export default function SupplierPanel() {
     <div className="p-6 max-w-5xl mx-auto space-y-6">
       {!loggedIn && (
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Login */}
           <div className="p-6 border rounded shadow space-y-4">
             <h2 className="text-xl font-bold">Login</h2>
             {error && <p className="text-red-500">{error}</p>}
@@ -139,7 +138,6 @@ export default function SupplierPanel() {
             </button>
           </div>
 
-          {/* Register */}
           <div className="p-6 border rounded shadow space-y-4">
             <h2 className="text-xl font-bold">Register</h2>
             <input
@@ -210,7 +208,6 @@ export default function SupplierPanel() {
             </button>
           </div>
 
-          {/* Food List */}
           <div className="grid md:grid-cols-3 gap-4 mt-4">
             {foods.map((f, i) => (
               <div key={i} className="p-4 border rounded shadow">
@@ -240,7 +237,6 @@ export default function SupplierPanel() {
             ))}
           </div>
 
-          {/* Supplier List */}
           <div className="mt-8">
             <h2 className="text-xl font-bold mb-4">Registered Suppliers</h2>
             <table className="w-full text-sm border">
