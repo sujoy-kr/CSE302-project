@@ -192,7 +192,7 @@ export default function StudentPanel() {
             />
             <button
               onClick={handleRegister}
-              className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-grray-800"
+              className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800"
             >
               Register
             </button>
@@ -283,7 +283,7 @@ export default function StudentPanel() {
             />
             <button
               onClick={handleLeaveFeedback}
-              className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-grray-800"
+              className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800"
             >
               Submit Feedback
             </button>
