@@ -215,7 +215,7 @@ export default function StudentPanel() {
             {foods.map((f, i) => (
               <div key={i} className="p-4 border rounded shadow">
                 <h3 className="font-semibold">{f.food_name}</h3>
-                <p>Price: ${f.price}</p>
+                <p>Price: ৳{f.price}</p>
                 <p>Category: {f.category}</p>
 
                 <input
