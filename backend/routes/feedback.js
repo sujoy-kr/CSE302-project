@@ -3,10 +3,10 @@ const router = express.Router()
 
 // GET all feedback
 router.get('/', async (req, res) => {
-    try {
-        const db = req.app.locals.db
+  try {
+    const db = req.app.locals.db
 
-        const [rows] = await db.query(`
+    const [rows] = await db.query(`
       SELECT 
           ef.feedback_id, 
           ef.rating, 
@@ -18,30 +18,31 @@ router.get('/', async (req, res) => {
       INNER JOIN Students s 
           ON ef.student_id = s.student_id
       INNER JOIN Employee e 
-          ON ef.employee_id = e.employee_id;
+          ON ef.employee_id = e.employee_id
+      ORDER BY ef.date DESC;
     `)
 
-        res.json(rows)
-    } catch (err) {
-        console.error(err)
-        res.status(500).json({ error: 'Server error' })
-    }
+    res.json(rows)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Server error' })
+  }
 })
 
 // POST feedback
 router.post('/', async (req, res) => {
-    try {
-        const db = req.app.locals.db
-        const { student_id, employee_id, rating, comment } = req.body
-        await db.query(
-            'INSERT INTO Employee_Feedback (student_id, employee_id, rating, comment, date) VALUES (?,?,?,?,?)',
-            [student_id, employee_id, rating, comment, new Date()]
-        )
-        res.json({ message: 'Feedback added' })
-    } catch (err) {
-        console.error(err)
-        res.status(500).json({ error: 'Server error' })
-    }
+  try {
+    const db = req.app.locals.db
+    const { student_id, employee_id, rating, comment } = req.body
+    await db.query(
+      'INSERT INTO Employee_Feedback (student_id, employee_id, rating, comment, date) VALUES (?,?,?,?,?)',
+      [student_id, employee_id, rating, comment, new Date()]
+    )
+    res.json({ message: 'Feedback added' })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Server error' })
+  }
 })
 
 module.exports = router
