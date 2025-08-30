@@ -18,21 +18,21 @@ app.use(express.json())
 app.use(cors())
 
 async function startServer() {
-    const db = await initDB()
-    app.locals.db = db
+  const db = await initDB()
+  app.locals.db = db
 
-    app.use('/auth', authRoutes)
-    app.use('/admin', adminRoutes)
-    app.use('/students', studentsRoutes)
-    app.use('/employees', employeesRoutes)
-    app.use('/suppliers', suppliersRoutes)
-    app.use('/food-items', foodItemsRoutes)
-    app.use('/orders', ordersRoutes)
-    app.use('/feedback', feedbackRoutes)
-    app.use('/reports', reportsRoutes)
-    app.use('/transactions', transactionsRoutes)
+  app.use('/auth', authRoutes)
+  app.use('/admin', adminRoutes)
+  app.use('/students', studentsRoutes)
+  app.use('/employees', employeesRoutes)
+  app.use('/suppliers', suppliersRoutes)
+  app.use('/food-items', foodItemsRoutes)
+  app.use('/orders', ordersRoutes)
+  app.use('/feedback', feedbackRoutes)
+  app.use('/reports', reportsRoutes)
+  app.use('/transactions', transactionsRoutes)
 
-    app.listen(3000, () => console.log('Server running on port 3000'))
+  app.listen(3000, () => console.log('Server running on port 3000'))
 }
 
 startServer()
