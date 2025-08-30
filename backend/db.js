@@ -206,8 +206,8 @@ async function initDB() {
             FROM Orders o
             INNER JOIN Students s ON o.student_id = s.student_id
             INNER JOIN Food_Items f ON o.food_item_id = f.food_item_id
-            GROUP BY s.dept_name, f.food_name
-            ORDER BY s.dept_name, order_count DESC
+            GROUP BY s.dept_name
+            ORDER BY order_count DESC
         `)
 
     console.log('Database initialized')
