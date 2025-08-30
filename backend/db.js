@@ -130,10 +130,11 @@ async function initDB() {
 
     // insert dummy department data
     await connection.query(`
-            INSERT INTO Department (dept_name, building, budget) VALUES 
-                ('CSE', 'main building', 500000.00),
-                ('MPS', 'fub', 300000.00),
-                ('ECO', 'ab3', 200000.00)
+            INSERT INTO Department (dept_name, building, budget) VALUES
+                ('CSE', 'Academic Bhaban', 500000.00),
+                ('EEE', 'Science Building', 400000.00),
+                ('BBA', 'Business Faculty', 300000.00),
+                ('ENG', 'Arts Building', 250000.00);
         `)
 
     // Views for reports
