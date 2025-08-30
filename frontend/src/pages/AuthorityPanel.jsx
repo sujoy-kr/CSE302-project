@@ -22,6 +22,7 @@ export default function AdminPanel() {
     price: '',
     category: '',
   })
+
   const [students, setStudents] = useState([])
   const [employees, setEmployees] = useState([])
   const [suppliedFoods, setSuppliedFoods] = useState([])
@@ -87,6 +88,7 @@ export default function AdminPanel() {
           res = await getTopFoodPerDepartment()
           break
       }
+
       setReportData(res.data)
     } catch {
       alert('Failed to fetch report')
