@@ -110,17 +110,22 @@ export default function AdminPanel() {
         {data.length > 0 ? (
           data.map((row, idx) => (
             <tr key={idx} className="hover:bg-gray-50">
-              {columns.map((col, i) => (
-                <td key={i} className="border p-2">
-                  {row[col] instanceof Date
-                    ? row[col].toLocaleDateString(undefined, {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                      })
-                    : row[col]}
-                </td>
-              ))}
+              {columns.map((col, i) => {
+                const cellValue = row[col]
+                const isDateColumn = col.toLowerCase().includes('date')
+
+                return (
+                  <td key={i} className="border p-2">
+                    {isDateColumn && cellValue
+                      ? new Date(cellValue).toLocaleDateString(undefined, {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        })
+                      : cellValue}
+                  </td>
+                )
+              })}
             </tr>
           ))
         ) : (
@@ -283,17 +288,21 @@ export default function AdminPanel() {
             <tbody>
               {reportData.map((row, idx) => (
                 <tr key={idx} className="hover:bg-gray-50">
-                  {Object.values(row).map((val, j) => (
-                    <td key={j} className="border p-2">
-                      {val instanceof Date
-                        ? val.toLocaleDateString(undefined, {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                          })
-                        : val}
-                    </td>
-                  ))}
+                  {Object.entries(row).map(([key, val], j) => {
+                    const isDateColumn = key.toLowerCase().includes('date')
+
+                    return (
+                      <td key={j} className="border p-2">
+                        {isDateColumn && val
+                          ? new Date(val).toLocaleDateString(undefined, {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                            })
+                          : val}
+                      </td>
+                    )
+                  })}
                 </tr>
               ))}
             </tbody>
