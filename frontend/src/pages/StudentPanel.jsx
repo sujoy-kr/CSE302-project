@@ -1,107 +1,107 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 import {
   createOrder,
   getFoods,
   leaveFeedback,
   loginUser,
   registerUser,
-} from "../api/api";
+} from '../api/api'
 
 export default function StudentPanel() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [studentId, setStudentId] = useState(null);
-  const [loginForm, setLoginForm] = useState({ ID: "", password: "" });
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [studentId, setStudentId] = useState(null)
+  const [loginForm, setLoginForm] = useState({ ID: '', password: '' })
   const [registerForm, setRegisterForm] = useState({
-    first_name: "",
-    last_name: "",
-    dept_name: "",
-    password: "",
-  });
-  const [foods, setFoods] = useState([]);
+    first_name: '',
+    last_name: '',
+    dept_name: '',
+    password: '',
+  })
+  const [foods, setFoods] = useState([])
   const [feedback, setFeedback] = useState({
-    employee_id: "",
+    employee_id: '',
     rating: 5,
-    comment: "",
-  });
-  const [error, setError] = useState("");
+    comment: '',
+  })
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    const id = localStorage.getItem("studentId");
+    const id = localStorage.getItem('studentId')
     if (id) {
-      setStudentId(id);
-      setLoggedIn(true);
-      fetchFoods();
+      setStudentId(id)
+      setLoggedIn(true)
+      fetchFoods()
     }
-  }, []);
+  }, [])
 
   const fetchFoods = async () => {
-    const res = await getFoods();
-    setFoods(res.data);
-  };
+    const res = await getFoods()
+    setFoods(res.data)
+  }
 
   const handleLogin = async () => {
     try {
-      const res = await loginUser({ userType: "student", ...loginForm });
+      const res = await loginUser({ userType: 'student', ...loginForm })
       if (res.data.exists) {
-        localStorage.setItem("studentId", res.data.user.student_id);
-        setStudentId(res.data.user.student_id);
-        setLoggedIn(true);
-        fetchFoods();
-      } else setError("Invalid credentials");
+        localStorage.setItem('studentId', res.data.user.student_id)
+        setStudentId(res.data.user.student_id)
+        setLoggedIn(true)
+        fetchFoods()
+      } else setError('Invalid credentials')
     } catch {
-      setError("Server error");
+      setError('Server error')
     }
-  };
+  }
 
   const handleRegister = async () => {
     try {
       const res = await registerUser({
-        userType: "student",
+        userType: 'student',
         ...registerForm,
-      });
+      })
 
-      localStorage.setItem("studentId", res.data.student_id);
-      setStudentId(res.data.student_id);
-      setLoggedIn(true);
-      fetchFoods();
+      localStorage.setItem('studentId', res.data.student_id)
+      setStudentId(res.data.student_id)
+      setLoggedIn(true)
+      fetchFoods()
     } catch {
-      setError("Server error");
+      setError('Server error')
     }
-  };
+  }
 
   const handleLogout = () => {
-    localStorage.removeItem("studentId");
-    setLoggedIn(false);
-    setStudentId(null);
-  };
+    localStorage.removeItem('studentId')
+    setLoggedIn(false)
+    setStudentId(null)
+  }
 
-  const [quantities, setQuantities] = useState({});
+  const [quantities, setQuantities] = useState({})
 
   const handleOrder = async (foodId) => {
-    const quantity = quantities[foodId] || 1;
+    const quantity = quantities[foodId] || 1
     try {
       await createOrder({
         student_id: studentId,
         food_item_id: foodId,
         quantity: quantity,
-      });
+      })
       alert(
         `Order placed! Quantity: ${quantity}. Employee will be assigned automatically.`
-      );
+      )
     } catch {
-      alert("Failed to place order");
+      alert('Failed to place order')
     }
-  };
+  }
 
   const handleLeaveFeedback = async () => {
     try {
-      await leaveFeedback({ student_id: studentId, ...feedback });
-      alert("Feedback submitted");
-      setFeedback({ employee_id: "", rating: 5, comment: "" });
+      await leaveFeedback({ student_id: studentId, ...feedback })
+      alert('Feedback submitted')
+      setFeedback({ employee_id: '', rating: 5, comment: '' })
     } catch {
-      alert("Failed to submit feedback");
+      alert('Failed to submit feedback')
     }
-  };
+  }
 
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-6">
@@ -289,5 +289,5 @@ export default function StudentPanel() {
         </>
       )}
     </div>
-  );
+  )
 }

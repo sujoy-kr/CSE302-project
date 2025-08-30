@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 import {
   createFood,
   getCategoryRevenue,
@@ -14,24 +14,24 @@ import {
   getTopStudents,
   getTopSuppliers,
   getTransactions,
-} from "../api/api";
+} from '../api/api'
 
 export default function AdminPanel() {
   const [foodForm, setFoodForm] = useState({
-    food_name: "",
-    price: "",
-    category: "",
-  });
-  const [students, setStudents] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const [suppliedFoods, setSuppliedFoods] = useState([]);
-  const [transactions, setTransactions] = useState([]);
-  const [feedbacks, setFeedbacks] = useState([]);
-  const [reportData, setReportData] = useState([]);
+    food_name: '',
+    price: '',
+    category: '',
+  })
+  const [students, setStudents] = useState([])
+  const [employees, setEmployees] = useState([])
+  const [suppliedFoods, setSuppliedFoods] = useState([])
+  const [transactions, setTransactions] = useState([])
+  const [feedbacks, setFeedbacks] = useState([])
+  const [reportData, setReportData] = useState([])
 
   useEffect(() => {
-    fetchAllData();
-  }, []);
+    fetchAllData()
+  }, [])
 
   const fetchAllData = async () => {
     const [s, e, f, t, fb] = await Promise.all([
@@ -40,58 +40,58 @@ export default function AdminPanel() {
       getSuppliedFoods(),
       getTransactions(),
       getFeedbacks(),
-    ]);
-    setStudents(s.data);
-    setEmployees(e.data);
-    setSuppliedFoods(f.data);
-    setTransactions(t.data);
-    setFeedbacks(fb.data);
-  };
+    ])
+    setStudents(s.data)
+    setEmployees(e.data)
+    setSuppliedFoods(f.data)
+    setTransactions(t.data)
+    setFeedbacks(fb.data)
+  }
 
   const handleCreateFood = async () => {
     try {
-      await createFood(foodForm);
-      alert("Food item created!");
-      setFoodForm({ food_name: "", price: "", category: "" });
+      await createFood(foodForm)
+      alert('Food item created!')
+      setFoodForm({ food_name: '', price: '', category: '' })
     } catch {
-      alert("Failed to create food");
+      alert('Failed to create food')
     }
-  };
+  }
 
   const handleReport = async (type) => {
-    let res;
+    let res
     try {
       switch (type) {
-        case "topFood":
-          res = await getTopFood();
-          break;
-        case "popularDept":
-          res = await getPopularDepartment();
-          break;
-        case "categoryRevenue":
-          res = await getCategoryRevenue();
-          break;
-        case "topStudents":
-          res = await getTopStudents();
-          break;
-        case "topSuppliers":
-          res = await getTopSuppliers();
-          break;
-        case "dailyRevenue":
-          res = await getDailyRevenue();
-          break;
-        case "employeeAvgRating":
-          res = await getEmployeeAverageRating();
-          break;
-        case "topFoodPerDept":
-          res = await getTopFoodPerDepartment();
-          break;
+        case 'topFood':
+          res = await getTopFood()
+          break
+        case 'popularDept':
+          res = await getPopularDepartment()
+          break
+        case 'categoryRevenue':
+          res = await getCategoryRevenue()
+          break
+        case 'topStudents':
+          res = await getTopStudents()
+          break
+        case 'topSuppliers':
+          res = await getTopSuppliers()
+          break
+        case 'dailyRevenue':
+          res = await getDailyRevenue()
+          break
+        case 'employeeAvgRating':
+          res = await getEmployeeAverageRating()
+          break
+        case 'topFoodPerDept':
+          res = await getTopFoodPerDepartment()
+          break
       }
-      setReportData(res.data);
+      setReportData(res.data)
     } catch {
-      alert("Failed to fetch report");
+      alert('Failed to fetch report')
     }
-  };
+  }
 
   const renderTable = (data, columns) => (
     <table className="w-full text-sm border-collapse border border-gray-300">
@@ -112,9 +112,9 @@ export default function AdminPanel() {
                 <td key={i} className="border p-2">
                   {row[col] instanceof Date
                     ? row[col].toLocaleDateString(undefined, {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
                       })
                     : row[col]}
                 </td>
@@ -130,7 +130,7 @@ export default function AdminPanel() {
         )}
       </tbody>
     </table>
-  );
+  )
 
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
@@ -174,10 +174,10 @@ export default function AdminPanel() {
           <h3 className="font-bold mb-2 text-blue-700">Students</h3>
           <div className="bg-white rounded shadow">
             {renderTable(students, [
-              "student_id",
-              "first_name",
-              "last_name",
-              "dept_name",
+              'student_id',
+              'first_name',
+              'last_name',
+              'dept_name',
             ])}
           </div>
         </div>
@@ -186,13 +186,13 @@ export default function AdminPanel() {
           <h3 className="font-bold mb-2 text-green-700">Employees</h3>
           <div className="bg-white rounded shadow">
             {renderTable(employees, [
-              "employee_id",
-              "first_name",
-              "last_name",
-              "role",
-              "salary",
-              "phone",
-              "hire_date",
+              'employee_id',
+              'first_name',
+              'last_name',
+              'role',
+              'salary',
+              'phone',
+              'hire_date',
             ])}
           </div>
         </div>
@@ -201,11 +201,11 @@ export default function AdminPanel() {
           <h3 className="font-bold mb-2 text-yellow-700">Supplied Foods</h3>
           <div className="bg-white rounded shadow">
             {renderTable(suppliedFoods, [
-              "supply_id",
-              "supplier_name",
-              "food_name",
-              "quantity",
-              "supply_date",
+              'supply_id',
+              'supplier_name',
+              'food_name',
+              'quantity',
+              'supply_date',
             ])}
           </div>
         </div>
@@ -214,11 +214,11 @@ export default function AdminPanel() {
           <h3 className="font-bold mb-2 text-purple-700">Transactions</h3>
           <div className="bg-white rounded shadow">
             {renderTable(transactions, [
-              "transaction_id",
-              "type",
-              "quantity",
-              "transaction_date",
-              "food_name",
+              'transaction_id',
+              'type',
+              'quantity',
+              'transaction_date',
+              'food_name',
             ])}
           </div>
         </div>
@@ -227,12 +227,12 @@ export default function AdminPanel() {
           <h3 className="font-bold mb-2 text-pink-700">Employee Feedbacks</h3>
           <div className="bg-white rounded shadow">
             {renderTable(feedbacks, [
-              "feedback_id",
-              "rating",
-              "comment",
-              "date",
-              "employee_name",
-              "student_name",
+              'feedback_id',
+              'rating',
+              'comment',
+              'date',
+              'employee_name',
+              'student_name',
             ])}
           </div>
         </div>
@@ -242,20 +242,20 @@ export default function AdminPanel() {
         <h3 className="text-xl font-bold">Reports</h3>
         <div className="flex flex-wrap space-x-2 mb-2">
           {[
-            { key: "topFood", label: "Top Food" },
-            { key: "popularDept", label: "Popular Department" },
+            { key: 'topFood', label: 'Top Food' },
+            { key: 'popularDept', label: 'Popular Department' },
             {
-              key: "categoryRevenue",
-              label: "Revenue by Category",
+              key: 'categoryRevenue',
+              label: 'Revenue by Category',
             },
-            { key: "topStudents", label: "Top Students" },
-            { key: "topSuppliers", label: "Top Suppliers" },
-            { key: "dailyRevenue", label: "Daily Revenue" },
+            { key: 'topStudents', label: 'Top Students' },
+            { key: 'topSuppliers', label: 'Top Suppliers' },
+            { key: 'dailyRevenue', label: 'Daily Revenue' },
             {
-              key: "employeeAvgRating",
-              label: "Employee Avg Rating",
+              key: 'employeeAvgRating',
+              label: 'Employee Avg Rating',
             },
-            { key: "topFoodPerDept", label: "Top Food Per Dept" },
+            { key: 'topFoodPerDept', label: 'Top Food Per Dept' },
           ].map((r) => (
             <button
               key={r.key}
@@ -285,9 +285,9 @@ export default function AdminPanel() {
                     <td key={j} className="border p-2">
                       {val instanceof Date
                         ? val.toLocaleDateString(undefined, {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
                           })
                         : val}
                     </td>
@@ -299,5 +299,5 @@ export default function AdminPanel() {
         )}
       </div>
     </div>
-  );
+  )
 }

@@ -1,91 +1,92 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 import {
   deliverOrder,
   getOrders,
   getPendingOrders,
   loginUser,
   registerUser,
-} from "../api/api";
+} from '../api/api'
 
 export default function EmployeePanel() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [employeeId, setEmployeeId] = useState(null);
-  const [loginForm, setLoginForm] = useState({ ID: "", password: "" });
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [employeeId, setEmployeeId] = useState(null)
+  const [loginForm, setLoginForm] = useState({ ID: '', password: '' })
   const [registerForm, setRegisterForm] = useState({
-    first_name: "",
-    last_name: "",
-    role: "",
-    salary: "",
-    phone: "",
-    password: "",
-  });
-  const [orders, setOrders] = useState([]);
-  const [allOrders, setAllOrders] = useState([]);
-  const [error, setError] = useState("");
+    first_name: '',
+    last_name: '',
+    role: '',
+    salary: '',
+    phone: '',
+    password: '',
+  })
+
+  const [orders, setOrders] = useState([])
+  const [allOrders, setAllOrders] = useState([])
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    const id = localStorage.getItem("employeeId");
+    const id = localStorage.getItem('employeeId')
     if (id) {
-      setEmployeeId(id);
-      setLoggedIn(true);
-      fetchOrders();
+      setEmployeeId(id)
+      setLoggedIn(true)
+      fetchOrders()
     }
-  }, []);
+  }, [])
 
   const fetchOrders = async () => {
-    const pendingOrders = await getPendingOrders();
-    const all = await getOrders();
+    const pendingOrders = await getPendingOrders()
+    const all = await getOrders()
 
-    setOrders(pendingOrders);
-    setAllOrders(all.data);
-  };
+    setOrders(pendingOrders)
+    setAllOrders(all.data)
+  }
 
   const handleLogin = async () => {
     try {
-      const res = await loginUser({ userType: "employee", ...loginForm });
+      const res = await loginUser({ userType: 'employee', ...loginForm })
       if (res.data.exists) {
-        localStorage.setItem("employeeId", res.data.user.employee_id);
-        setEmployeeId(res.data.user.employee_id);
-        setLoggedIn(true);
-        fetchOrders();
-      } else setError("Invalid credentials");
+        localStorage.setItem('employeeId', res.data.user.employee_id)
+        setEmployeeId(res.data.user.employee_id)
+        setLoggedIn(true)
+        fetchOrders()
+      } else setError('Invalid credentials')
     } catch {
-      setError("Server error");
+      setError('Server error')
     }
-  };
+  }
 
   const handleRegister = async () => {
     try {
       const res = await registerUser({
-        userType: "employee",
+        userType: 'employee',
         ...registerForm,
-      });
-      localStorage.setItem("employeeId", res.data.employee_id);
-      setEmployeeId(res.data.employee_id);
-      setLoggedIn(true);
-      fetchOrders();
+      })
+      localStorage.setItem('employeeId', res.data.employee_id)
+      setEmployeeId(res.data.employee_id)
+      setLoggedIn(true)
+      fetchOrders()
     } catch {
-      setError("Server error");
+      setError('Server error')
     }
-  };
+  }
 
   const handleLogout = () => {
-    localStorage.removeItem("employeeId");
-    setLoggedIn(false);
-    setEmployeeId(null);
-    setOrders([]);
-    setAllOrders([]);
-  };
+    localStorage.removeItem('employeeId')
+    setLoggedIn(false)
+    setEmployeeId(null)
+    setOrders([])
+    setAllOrders([])
+  }
 
   const handleDeliver = async (orderId) => {
     try {
-      await deliverOrder(orderId, employeeId);
-      alert("Order delivered & transaction created!");
-      fetchOrders();
+      await deliverOrder(orderId, employeeId)
+      alert('Order delivered & transaction created!')
+      fetchOrders()
     } catch {
-      alert("Failed to deliver order");
+      alert('Failed to deliver order')
     }
-  };
+  }
 
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-8">
@@ -225,11 +226,11 @@ export default function EmployeePanel() {
                 <p>Student: {o.ordered_by}</p>
                 <p>Quantity: {o.quantity}</p>
                 <p>
-                  Date:{" "}
+                  Date:{' '}
                   {new Date(o.order_date).toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
                   })}
                 </p>
                 <p>Status: {o.status}</p>
@@ -267,14 +268,14 @@ export default function EmployeePanel() {
                       <td className="p-2 border">{o.quantity}</td>
                       <td className="p-2 border">
                         {new Date(o.order_date).toLocaleDateString(undefined, {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
                         })}
                       </td>
                       <td className="p-2 border">{o.status}</td>
                       <td className="p-2 border">
-                        {o.handled_by ? o.handled_by : "—"}
+                        {o.handled_by ? o.handled_by : '—'}
                       </td>
                     </tr>
                   ))}
@@ -285,5 +286,5 @@ export default function EmployeePanel() {
         </>
       )}
     </div>
-  );
+  )
 }
